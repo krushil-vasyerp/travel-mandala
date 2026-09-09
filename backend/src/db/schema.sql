@@ -1,0 +1,24 @@
+CREATE TABLE IF NOT EXISTS members (
+  id SERIAL PRIMARY KEY,
+  name VARCHAR(100) NOT NULL,
+  joined_month DATE NOT NULL,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE IF NOT EXISTS payments (
+  id SERIAL PRIMARY KEY,
+  member_id INTEGER NOT NULL REFERENCES members(id) ON DELETE CASCADE,
+  payment_month DATE NOT NULL,
+  paid BOOLEAN NOT NULL DEFAULT FALSE,
+  paid_at TIMESTAMP,
+  UNIQUE (member_id, payment_month)
+);
+
+CREATE TABLE IF NOT EXISTS settings (
+  id INTEGER PRIMARY KEY DEFAULT 1,
+  monthly_amount INTEGER NOT NULL DEFAULT 1000,
+  start_month DATE NOT NULL,
+  end_month DATE NOT NULL,
+  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  CHECK (id = 1)
+);
